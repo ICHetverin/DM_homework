@@ -45,7 +45,7 @@ int main() {
     test("a|b");
     test("a*");
     test("a+");
-    test("a?");
+    test("a??");
     test("(a)");
     test("ab");
     test("a(b|c)*");
