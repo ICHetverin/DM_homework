@@ -6,7 +6,6 @@
 
 namespace {
     void registerTests() {
-        // Тест на одиночный символ
         TestRunner::instance().addTest(
             TestCase("SingleChar", [] {
                 Grammar grammar;
@@ -39,13 +38,15 @@ namespace {
             })
         );
 
-        // Тест на выбор (a|b)
         TestRunner::instance().addTest(
             TestCase("Choice", [] {
                 Grammar grammar;
                 Lexer lexer("a|b");
                 Parser parser(grammar, lexer.tokenize());
                 auto ast = parser.parse();
+
+                std::cout << "Actual AST:\n";
+                ast->print(2);
 
                 auto expected = ASTBuilder::node(R0,
                     ASTBuilder::node(S0,
@@ -90,18 +91,16 @@ namespace {
             })
         );
 
-        // Тест на ошибку
         TestRunner::instance().addTest(
             TestCase("InvalidInput", [] {
                 Grammar grammar;
-                Lexer lexer("A"); // Недопустимый символ
+                Lexer lexer("A");
                 Parser parser(grammar, lexer.tokenize());
-                parser.parse(); // Должен бросить исключение
-            }, true) // Ожидаем ошибку
+                parser.parse();
+            }, true)
         );
     }
 
-    // Автоматическая регистрация тестов
     static bool testsRegistered = []() {
         registerTests();
         return true;

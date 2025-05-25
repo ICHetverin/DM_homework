@@ -42,14 +42,16 @@ std::unique_ptr<ASTNode> Parser::parseR0() {
 
 std::unique_ptr<ASTNode> Parser::parseR1() {
     if (match(TokenType::CHOICE)) {
-        auto s0 = parseS0();
-        auto r1 = parseR1();
-        return std::make_unique<InnerNode>(R1, 
-            std::make_unique<Leaf>(Token::CHOICE()),
-            std::move(s0),
-            std::move(r1));
+        auto choiceToken = tokens[pos-1];
+        auto rightPart = parseR0();
+        return std::make_unique<InnerNode>(R1,
+            std::make_unique<Leaf>(choiceToken),
+            std::move(rightPart)
+        );
     }
-    return std::make_unique<InnerNode>(R1, std::make_unique<Leaf>(Token::EPSILON()));
+    return std::make_unique<InnerNode>(R1,
+        std::make_unique<Leaf>(Token::EPSILON())
+    );
 }
 
 std::unique_ptr<ASTNode> Parser::parseS0() {
