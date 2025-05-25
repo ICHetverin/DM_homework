@@ -64,12 +64,16 @@ std::unique_ptr<ASTNode> Parser::parseS1() {
     if (grammar.inFirst(S1, current().type)) {
         auto t = parseT();
         auto s1 = parseS1();
-        return std::make_unique<InnerNode>(S1, std::move(t), std::move(s1));
+        return std::make_unique<InnerNode>(S1,
+            std::make_unique<InnerNode>(S0,  // Добавляем S0
+                std::move(t),
+                std::move(s1)
+            )
+        );
     }
-    else if (grammar.inFollow(S1, current().type)) {
-        return std::make_unique<InnerNode>(S1, std::make_unique<Leaf>(Token::EPSILON()));
-    }
-    throw std::runtime_error("Unexpected token in S1");
+    return std::make_unique<InnerNode>(S1,
+        std::make_unique<Leaf>(Token::EPSILON())
+    );
 }
 
 std::unique_ptr<ASTNode> Parser::parseT() {
