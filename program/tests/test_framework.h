@@ -1,3 +1,9 @@
+//---------------------
+// Ivan Chetverin M3113 - ICHetverin
+// Реализация TestRunner
+// Содержит систему для запуска и проверки unit-тестов
+//---------------------
+
 #pragma once
 #include <functional>
 #include <string>

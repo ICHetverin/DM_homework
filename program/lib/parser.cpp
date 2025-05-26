@@ -65,7 +65,7 @@ std::unique_ptr<ASTNode> Parser::parseS1() {
         auto t = parseT();
         auto s1 = parseS1();
         return std::make_unique<InnerNode>(S1,
-            std::make_unique<InnerNode>(S0,  // Добавляем S0
+            std::make_unique<InnerNode>(S0,
                 std::move(t),
                 std::move(s1)
             )

@@ -1,3 +1,8 @@
+//---------------------
+// Ivan Chetverin M3113 - ICHetverin
+// Parser tests implementation
+//---------------------
+
 #include "test_framework.h"
 #include "ast_builder.h"
 #include "parser.h"
@@ -6,7 +11,9 @@
 
 namespace {
     void registerTests() {
-        // 1. Тест для одиночного символа 'a'
+//--------------------------------------------------
+// Test 1: a
+//--------------------------------------------------
         TestRunner::instance().addTest(
             TestCase("CorrectnessTreeLetter", [] {
                 Grammar grammar;
@@ -39,7 +46,9 @@ namespace {
             })
         );
 
-        // 2. Тест для выбора 'a|b'
+//--------------------------------------------------
+// Test 2: a|b
+//--------------------------------------------------
         TestRunner::instance().addTest(
             TestCase("CorrectnessTreeChoice", [] {
                 Grammar grammar;
@@ -90,7 +99,9 @@ namespace {
             })
         );
 
-        // 3. Тест для замыкания 'a*'
+//--------------------------------------------------
+// Test 3: a*
+//--------------------------------------------------
         TestRunner::instance().addTest(
             TestCase("CorrectnessTreeKleene", [] {
                 Grammar grammar;
@@ -126,16 +137,15 @@ namespace {
             })
         );
 
-        // 4. Тест для конкатенации 'ab'
+//--------------------------------------------------
+// Test 4: ab
+//--------------------------------------------------
         TestRunner::instance().addTest(
             TestCase("CorrectnessTreeConcatenate", [] {
                 Grammar grammar;
                 Lexer lexer("ab");
                 Parser parser(grammar, lexer.tokenize());
                 auto ast = parser.parse();
-
-                std::cout << "Actual AST:\n";
-                ast->print(2);
 
                 auto expected = ASTBuilder::node(R0,
                     ASTBuilder::node(S0,
@@ -174,7 +184,9 @@ namespace {
             })
         );
 
-        // 5. Тест для скобок '(a)'
+//--------------------------------------------------
+// Test 5: (a)
+//--------------------------------------------------
         TestRunner::instance().addTest(
             TestCase("CorrectnessTreeParenthesis", [] {
                 Grammar grammar;
@@ -227,7 +239,6 @@ namespace {
         );
     }
 
-    // Автоматическая регистрация тестов при запуске
     static bool testsRegistered = []() {
         registerTests();
         return true;

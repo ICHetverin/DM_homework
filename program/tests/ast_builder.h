@@ -1,3 +1,9 @@
+//---------------------
+// Ivan Chetverin M3113 - ICHetverin
+// Реализация ASTBuilder
+// Содержит методы для построения AST (Abstract Syntax Tree)
+//---------------------
+
 #pragma once
 #include "ast.h"
 #include <memory>
