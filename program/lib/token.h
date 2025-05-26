@@ -8,15 +8,15 @@
 #pragma once
 
 enum class TokenType {
-    CHAR,       // a-z
-    CHOICE,     // |
-    KLEENE,     // *
-    PLUS,       // +
-    QUESTION,   // ?
-    LPAREN,     // (
-    RPAREN,     // )
-    EPSILON,    // ε
-    EOF_TOKEN   // Конец ввода
+    CHAR,                // a-z
+    CHOICE,              // |
+    KLEENE,              // *
+    PLUS,                // +
+    QUESTION,            // ?
+    LPAREN,              // (
+    RPAREN,              // )
+    EPSILON,             // ε
+    EOF_TOKEN            // Конец ввода
 };
 
 struct Token {

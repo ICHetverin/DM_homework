@@ -4,7 +4,7 @@
 // Содержит логику разбора строки на токены
 //---------------------
 
-#include "lexer.h"
+#include <lexer.h>
 #include <stdexcept>
 
 Lexer::Lexer(const std::string& str) : input(str) {}

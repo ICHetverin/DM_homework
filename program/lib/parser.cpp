@@ -4,7 +4,7 @@
 // Содержит методы рекурсивного спуска для разбора регулярных выражений
 //---------------------
 
-#include "parser.h"
+#include <parser.h>
 #include <stdexcept>
 
 Parser::Parser(const Grammar& g, std::vector<Token> toks)

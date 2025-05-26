@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "token.h"
-#include "nonterminal.h"
+#include <token.h>
+#include <nonterminal.h>
 #include <unordered_map>
 #include <unordered_set>
 

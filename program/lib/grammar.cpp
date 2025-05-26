@@ -4,7 +4,7 @@
 // Инициализирует множества First и Follow для нетерминалов
 //---------------------
 
-#include "grammar.h"
+#include <grammar.h>
 
 Grammar::Grammar() {
     // First

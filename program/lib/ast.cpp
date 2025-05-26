@@ -4,7 +4,7 @@
 // Содержит реализацию методов для Leaf и InnerNode
 //---------------------
 
-#include "ast.h"
+#include <ast.h>
 #include <iostream>
 
 Leaf::Leaf(Token t) : token(t) {}

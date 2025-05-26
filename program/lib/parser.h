@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "grammar.h"
-#include "ast.h"
+#include <grammar.h>
+#include <ast.h>
 #include <vector>
 #include <memory>
 

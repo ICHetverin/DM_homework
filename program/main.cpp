@@ -2,15 +2,12 @@
 // Ivan Chetverin M3113 - ICHetverin
 // Главный модуль программы
 // Содержит тесты для проверки лексера и парсера
-// TODO:
-// * implement other tests
-// * how-to compare AST (given-builded)
 //---------------------
 
 #include <iostream>
-#include "lib/lexer.h"
-#include "lib/grammar.h"
-#include "lib/parser.h"
+#include <lexer.h>
+#include <grammar.h>
+#include <parser.h>
 
 void test(const std::string& input, bool shouldPass = true) {
     static Grammar grammar;
@@ -40,6 +37,7 @@ void test(const std::string& input, bool shouldPass = true) {
 }
 
 int main() {
+    // Simple tests
     // Correctness tests
     test("a");
     test("a|b");
