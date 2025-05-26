@@ -1,13 +1,13 @@
 //---------------------
 // Ivan Chetverin M3113 - ICHetverin
-// Parser tests implementation
+// Parser correctness tests implementation
 //---------------------
 
 #include "test_framework.h"
 #include "ast_builder.h"
-#include "parser.h"
-#include "lexer.h"
-#include "grammar.h"
+#include <parser.h>
+#include <lexer.h>
+#include <grammar.h>
 
 namespace {
     void registerTests() {
@@ -870,6 +870,535 @@ namespace {
 
                 if (!expected->equals(ast.get())) {
                     throw std::runtime_error("AST mismatch for a|b*c");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 16: abcdef
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("ParsesLongConcatenation", [] {
+                Grammar grammar;
+                Lexer lexer("abcdef");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'c')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::node(S0,
+                                                ASTBuilder::node(T,
+                                                    ASTBuilder::node(A,
+                                                        ASTBuilder::leaf(TokenType::CHAR, 'd')
+                                                    ),
+                                                    ASTBuilder::node(C,
+                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                    )
+                                                ),
+                                                ASTBuilder::node(S1,
+                                                    ASTBuilder::node(S0,
+                                                        ASTBuilder::node(T,
+                                                            ASTBuilder::node(A,
+                                                                ASTBuilder::leaf(TokenType::CHAR, 'e')
+                                                            ),
+                                                            ASTBuilder::node(C,
+                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                            )
+                                                        ),
+                                                        ASTBuilder::node(S1,
+                                                            ASTBuilder::node(S0,
+                                                                ASTBuilder::node(T,
+                                                                    ASTBuilder::node(A,
+                                                                        ASTBuilder::leaf(TokenType::CHAR, 'f')
+                                                                    ),
+                                                                    ASTBuilder::node(C,
+                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                    )
+                                                                ),
+                                                                ASTBuilder::node(S1,
+                                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                                )
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for long concatenation abcdef");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 17: a|b|c|d|e|f
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("ParsesLongChoice", [] {
+                Grammar grammar;
+                Lexer lexer("a|b|c|d|e|f");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::CHOICE),
+                        ASTBuilder::node(R0,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                )
+                            ),
+                            ASTBuilder::node(R1,
+                                ASTBuilder::leaf(TokenType::CHOICE),
+                                ASTBuilder::node(R0,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'c')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    ),
+                                    ASTBuilder::node(R1,
+                                        ASTBuilder::leaf(TokenType::CHOICE),
+                                        ASTBuilder::node(R0,
+                                            ASTBuilder::node(S0,
+                                                ASTBuilder::node(T,
+                                                    ASTBuilder::node(A,
+                                                        ASTBuilder::leaf(TokenType::CHAR, 'd')
+                                                    ),
+                                                    ASTBuilder::node(C,
+                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                    )
+                                                ),
+                                                ASTBuilder::node(S1,
+                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                )
+                                            ),
+                                            ASTBuilder::node(R1,
+                                                ASTBuilder::leaf(TokenType::CHOICE),
+                                                ASTBuilder::node(R0,
+                                                    ASTBuilder::node(S0,
+                                                        ASTBuilder::node(T,
+                                                            ASTBuilder::node(A,
+                                                                ASTBuilder::leaf(TokenType::CHAR, 'e')
+                                                            ),
+                                                            ASTBuilder::node(C,
+                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                            )
+                                                        ),
+                                                        ASTBuilder::node(S1,
+                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                        )
+                                                    ),
+                                                    ASTBuilder::node(R1,
+                                                        ASTBuilder::leaf(TokenType::CHOICE),
+                                                        ASTBuilder::node(R0,
+                                                            ASTBuilder::node(S0,
+                                                                ASTBuilder::node(T,
+                                                                    ASTBuilder::node(A,
+                                                                        ASTBuilder::leaf(TokenType::CHAR, 'f')
+                                                                    ),
+                                                                    ASTBuilder::node(C,
+                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                    )
+                                                                ),
+                                                                ASTBuilder::node(S1,
+                                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                                )
+                                                            ),
+                                                            ASTBuilder::node(R1,
+                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for long choice a|b|c|d|e|f");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 18: a*****
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("ParsesLongKleene", [] {
+                Grammar grammar;
+                Lexer lexer("a*****");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::KLEENE),
+                                ASTBuilder::node(C,
+                                    ASTBuilder::leaf(TokenType::KLEENE),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::KLEENE),
+                                        ASTBuilder::node(C,
+                                            ASTBuilder::leaf(TokenType::KLEENE),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::KLEENE),
+                                                ASTBuilder::node(C,
+                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for long kleene a*****");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 19: (((((a)))))
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("ParsesLongParenthesis", [] {
+                Grammar grammar;
+                Lexer lexer("(((((a)))))");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::LPAREN),
+                                ASTBuilder::node(R0,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::LPAREN),
+                                                ASTBuilder::node(R0,
+                                                    ASTBuilder::node(S0,
+                                                        ASTBuilder::node(T,
+                                                            ASTBuilder::node(A,
+                                                                ASTBuilder::leaf(TokenType::LPAREN),
+                                                                ASTBuilder::node(R0,
+                                                                    ASTBuilder::node(S0,
+                                                                        ASTBuilder::node(T,
+                                                                            ASTBuilder::node(A,
+                                                                                ASTBuilder::leaf(TokenType::LPAREN),
+                                                                                ASTBuilder::node(R0,
+                                                                                    ASTBuilder::node(S0,
+                                                                                        ASTBuilder::node(T,
+                                                                                            ASTBuilder::node(A,
+                                                                                                ASTBuilder::leaf(TokenType::LPAREN),
+                                                                                                ASTBuilder::node(R0,
+                                                                                                    ASTBuilder::node(S0,
+                                                                                                        ASTBuilder::node(T,
+                                                                                                            ASTBuilder::node(A,
+                                                                                                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                                                                                                            ),
+                                                                                                            ASTBuilder::node(C,
+                                                                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                                                                            )
+                                                                                                        ),
+                                                                                                        ASTBuilder::node(S1,
+                                                                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                                                                        )
+                                                                                                    ),
+                                                                                                    ASTBuilder::node(R1,
+                                                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                                                    )
+                                                                                                ),
+                                                                                                ASTBuilder::leaf(TokenType::RPAREN)
+                                                                                            ),
+                                                                                            ASTBuilder::node(C,
+                                                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                                                            )
+                                                                                        ),
+                                                                                        ASTBuilder::node(S1,
+                                                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                                                        )
+                                                                                    ),
+                                                                                    ASTBuilder::node(R1,
+                                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                                    )
+                                                                                ),
+                                                                                ASTBuilder::leaf(TokenType::RPAREN)
+                                                                            ),
+                                                                            ASTBuilder::node(C,
+                                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                                            )
+                                                                        ),
+                                                                        ASTBuilder::node(S1,
+                                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                                        )
+                                                                    ),
+                                                                    ASTBuilder::node(R1,
+                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                    )
+                                                                ),
+                                                                ASTBuilder::leaf(TokenType::RPAREN)
+                                                            ),
+                                                            ASTBuilder::node(C,
+                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                            )
+                                                        ),
+                                                        ASTBuilder::node(S1,
+                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                        )
+                                                    ),
+                                                    ASTBuilder::node(R1,
+                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                    )
+                                                ),
+                                                ASTBuilder::leaf(TokenType::RPAREN)
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    ),
+                                    ASTBuilder::node(R1,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::leaf(TokenType::RPAREN)
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for long parenthesis (((((a)))))");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 20: ab|c*d(e|f)
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("ParsesMixedComplex", [] {
+                Grammar grammar;
+                Lexer lexer("ab|c*d(e|f)");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                )
+                            )
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::CHOICE),
+                        ASTBuilder::node(R0,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'c')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::KLEENE),
+                                        ASTBuilder::node(C,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'd')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::node(S0,
+                                                ASTBuilder::node(T,
+                                                    ASTBuilder::node(A,
+                                                        ASTBuilder::leaf(TokenType::LPAREN),
+                                                        ASTBuilder::node(R0,
+                                                            ASTBuilder::node(S0,
+                                                                ASTBuilder::node(T,
+                                                                    ASTBuilder::node(A,
+                                                                        ASTBuilder::leaf(TokenType::CHAR, 'e')
+                                                                    ),
+                                                                    ASTBuilder::node(C,
+                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                    )
+                                                                ),
+                                                                ASTBuilder::node(S1,
+                                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                                )
+                                                            ),
+                                                            ASTBuilder::node(R1,
+                                                                ASTBuilder::leaf(TokenType::CHOICE),
+                                                                ASTBuilder::node(R0,
+                                                                    ASTBuilder::node(S0,
+                                                                        ASTBuilder::node(T,
+                                                                            ASTBuilder::node(A,
+                                                                                ASTBuilder::leaf(TokenType::CHAR, 'f')
+                                                                            ),
+                                                                            ASTBuilder::node(C,
+                                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                                            )
+                                                                        ),
+                                                                        ASTBuilder::node(S1,
+                                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                                        )
+                                                                    ),
+                                                                    ASTBuilder::node(R1,
+                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                    )
+                                                                )
+                                                            )
+                                                        ),
+                                                        ASTBuilder::leaf(TokenType::RPAREN)
+                                                    ),
+                                                    ASTBuilder::node(C,
+                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                    )
+                                                ),
+                                                ASTBuilder::node(S1,
+                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ASTBuilder::node(R1,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        )
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for mixed complex expression ab|c*d(e|f)");
                 }
             })
         );

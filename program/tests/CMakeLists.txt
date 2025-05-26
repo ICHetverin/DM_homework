@@ -1,6 +1,7 @@
 add_executable(regex_tests
     main.cpp
-    parser_tests.cpp
+    correctness_tests.cpp
+    exception_tests.cpp
     ast_builder.h
     test_framework.h
 )
