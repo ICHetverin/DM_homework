@@ -237,6 +237,642 @@ namespace {
                 }
             })
         );
+
+//--------------------------------------------------
+// Test 6: abc
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeABC", [] {
+                Grammar grammar;
+                Lexer lexer("abc");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'c')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for abc");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 7: (a)
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeParenthesisA", [] {
+                Grammar grammar;
+                Lexer lexer("(a)");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::LPAREN),
+                                ASTBuilder::node(R0,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    ),
+                                    ASTBuilder::node(R1,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::leaf(TokenType::RPAREN)
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for (a)");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 8: xy
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeXY", [] {
+                Grammar grammar;
+                Lexer lexer("xy");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'x')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'y')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                )
+                            )
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for xy");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 9: a|b|c
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeAorBorC", [] {
+                Grammar grammar;
+                Lexer lexer("a|b|c");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::CHOICE),
+                        ASTBuilder::node(R0,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                )
+                            ),
+                            ASTBuilder::node(R1,
+                                ASTBuilder::leaf(TokenType::CHOICE),
+                                ASTBuilder::node(R0,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'c')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    ),
+                                    ASTBuilder::node(R1,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                )
+                            )
+                        )
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for a|b|c");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 10: ab*
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeABstar", [] {
+                Grammar grammar;
+                Lexer lexer("ab*");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::KLEENE),
+                                        ASTBuilder::node(C,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                )
+                            )
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for ab*");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 11: x|y|z
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeXorYorZ", [] {
+                Grammar grammar;
+                Lexer lexer("x|y|z");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'x')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::CHOICE),
+                        ASTBuilder::node(R0,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'y')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                )
+                            ),
+                            ASTBuilder::node(R1,
+                                ASTBuilder::leaf(TokenType::CHOICE),
+                                ASTBuilder::node(R0,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'z')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    ),
+                                    ASTBuilder::node(R1,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                )
+                            )
+                        )
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for x|y|z");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 12: ab(c|d)*
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeABParenCDStar", [] {
+                Grammar grammar;
+                Lexer lexer("ab(c|d)*");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::LPAREN),
+                                                ASTBuilder::node(R0,
+                                                    ASTBuilder::node(S0,
+                                                        ASTBuilder::node(T,
+                                                            ASTBuilder::node(A,
+                                                                ASTBuilder::leaf(TokenType::CHAR, 'c')
+                                                            ),
+                                                            ASTBuilder::node(C,
+                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                            )
+                                                        ),
+                                                        ASTBuilder::node(S1,
+                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                        )
+                                                    ),
+                                                    ASTBuilder::node(R1,
+                                                        ASTBuilder::leaf(TokenType::CHOICE),
+                                                        ASTBuilder::node(R0,
+                                                            ASTBuilder::node(S0,
+                                                                ASTBuilder::node(T,
+                                                                    ASTBuilder::node(A,
+                                                                        ASTBuilder::leaf(TokenType::CHAR, 'd')
+                                                                    ),
+                                                                    ASTBuilder::node(C,
+                                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                                    )
+                                                                ),
+                                                                ASTBuilder::node(S1,
+                                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                                )
+                                                            ),
+                                                            ASTBuilder::node(R1,
+                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                            )
+                                                        )
+                                                    )
+                                                ),
+                                                ASTBuilder::leaf(TokenType::RPAREN)
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::KLEENE),
+                                                ASTBuilder::node(C,
+                                                    ASTBuilder::leaf(TokenType::EPSILON)
+                                                )
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for ab(c|d)*");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 13: ((a))
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeDoubleParenthesesA", [] {
+                Grammar grammar;
+                Lexer lexer("((a))");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::LPAREN),
+                                ASTBuilder::node(R0,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::LPAREN),
+                                                ASTBuilder::node(R0,
+                                                    ASTBuilder::node(S0,
+                                                        ASTBuilder::node(T,
+                                                            ASTBuilder::node(A,
+                                                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                                                            ),
+                                                            ASTBuilder::node(C,
+                                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                                            )
+                                                        ),
+                                                        ASTBuilder::node(S1,
+                                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                                        )
+                                                    ),
+                                                    ASTBuilder::node(R1,
+                                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                                    )
+                                                ),
+                                                ASTBuilder::leaf(TokenType::RPAREN)
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    ),
+                                    ASTBuilder::node(R1,
+                                        ASTBuilder::leaf(TokenType::EPSILON)
+                                    )
+                                ),
+                                ASTBuilder::leaf(TokenType::RPAREN)
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for ((a))");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 14: a***
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeAMultipleStars", [] {
+                Grammar grammar;
+                Lexer lexer("a***");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::KLEENE),
+                                ASTBuilder::node(C,
+                                    ASTBuilder::leaf(TokenType::KLEENE),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::KLEENE),
+                                        ASTBuilder::node(C,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::EPSILON)
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for a***");
+                }
+            })
+        );
+
+//--------------------------------------------------
+// Test 15: a|b*c
+//--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("CorrectnessTreeAorBStarC", [] {
+                Grammar grammar;
+                Lexer lexer("a|b*c");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                auto expected = ASTBuilder::node(R0,
+                    ASTBuilder::node(S0,
+                        ASTBuilder::node(T,
+                            ASTBuilder::node(A,
+                                ASTBuilder::leaf(TokenType::CHAR, 'a')
+                            ),
+                            ASTBuilder::node(C,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        ),
+                        ASTBuilder::node(S1,
+                            ASTBuilder::leaf(TokenType::EPSILON)
+                        )
+                    ),
+                    ASTBuilder::node(R1,
+                        ASTBuilder::leaf(TokenType::CHOICE),
+                        ASTBuilder::node(R0,
+                            ASTBuilder::node(S0,
+                                ASTBuilder::node(T,
+                                    ASTBuilder::node(A,
+                                        ASTBuilder::leaf(TokenType::CHAR, 'b')
+                                    ),
+                                    ASTBuilder::node(C,
+                                        ASTBuilder::leaf(TokenType::KLEENE),
+                                        ASTBuilder::node(C,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    )
+                                ),
+                                ASTBuilder::node(S1,
+                                    ASTBuilder::node(S0,
+                                        ASTBuilder::node(T,
+                                            ASTBuilder::node(A,
+                                                ASTBuilder::leaf(TokenType::CHAR, 'c')
+                                            ),
+                                            ASTBuilder::node(C,
+                                                ASTBuilder::leaf(TokenType::EPSILON)
+                                            )
+                                        ),
+                                        ASTBuilder::node(S1,
+                                            ASTBuilder::leaf(TokenType::EPSILON)
+                                        )
+                                    )
+                                )
+                            ),
+                            ASTBuilder::node(R1,
+                                ASTBuilder::leaf(TokenType::EPSILON)
+                            )
+                        )
+                    )
+                );
+
+                if (!expected->equals(ast.get())) {
+                    throw std::runtime_error("AST mismatch for a|b*c");
+                }
+            })
+        );
     }
 
     static bool testsRegistered = []() {
