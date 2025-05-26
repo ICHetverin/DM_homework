@@ -1,9 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/Users/ich/Desktop/Labs/dm/dm_hw/build/cmake_install.cmake",
-		"/Users/ich/Desktop/Labs/dm/dm_hw/build/lib/cmake_install.cmake",
-		"/Users/ich/Desktop/Labs/dm/dm_hw/build/tests/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
