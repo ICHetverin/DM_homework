@@ -10,66 +10,65 @@
 #include <grammar.h>
 
 namespace {
+    class Test {
+    public:
+        static void ParseExceptionTest(const std::string& testName, const std::string& input) {
+            TestRunner::instance().addTest(
+                TestCase(testName, [input] {
+                    Grammar grammar;
+                    Lexer lexer(input);
+                    Parser parser(grammar, lexer.tokenize());
+                    parser.parse();
+                }, true)
+            );
+        }
+    };
+
     void registerExceptionTests() {
-//--------------------------------------------------
-// Test 1: LexerAlphabet - uppercase letters
-//--------------------------------------------------
-        TestRunner::instance().addTest(
-            TestCase("LexerAlphabet", [] {
-                Grammar grammar;
-                Lexer lexer("abcDef");
-                Parser parser(grammar, lexer.tokenize());
-                parser.parse();
-            }, true)
-        );
+        // Lexer-related exceptions
+        Test::ParseExceptionTest("LexerAlphabet", "abcDef");
+        Test::ParseExceptionTest("LexerDigits", "abcd3f");
+        Test::ParseExceptionTest("LexerSymbols", "^bcdef");
+        Test::ParseExceptionTest("LexerAlphabetCapital", "abcDxyz");
+        Test::ParseExceptionTest("CapitalLetter", "A");
+        Test::ParseExceptionTest("Digit", "0abc");
+        Test::ParseExceptionTest("HatSymbol", "^abc");
+        Test::ParseExceptionTest("CaretInside", "abc^def");
 
-//--------------------------------------------------
-// Test 2: LexerDigits - digits in expression
-//--------------------------------------------------
-        TestRunner::instance().addTest(
-            TestCase("LexerDigits", [] {
-                Grammar grammar;
-                Lexer lexer("abcd3f");
-                Parser parser(grammar, lexer.tokenize());
-                parser.parse();
-            }, true)
-        );
+        // Empty input cases
+        Test::ParseExceptionTest("Empty", "");
+        Test::ParseExceptionTest("OnlyStars", "****");
 
-//--------------------------------------------------
-// Test 3: LexerSymbols - special characters
-//--------------------------------------------------
-        TestRunner::instance().addTest(
-            TestCase("LexerSymbols", [] {
-                Grammar grammar;
-                Lexer lexer("^bcdef");
-                Parser parser(grammar, lexer.tokenize());
-                parser.parse();
-            }, true)
-        );
+        // Choice operator issues
+        Test::ParseExceptionTest("StartsWithChoice", "|abc");
+        Test::ParseExceptionTest("StartsWithChoiceEmpty", "|");
+        Test::ParseExceptionTest("EndsWithChoice", "a|b|c|");
+        Test::ParseExceptionTest("EndWithChoiceAgain", "x|y|z|");
+        Test::ParseExceptionTest("EmptyChoice", "a||b");
+        Test::ParseExceptionTest("EmptyAlternative", "(a|)");
+        Test::ParseExceptionTest("StartWithChoiceAndParenthesis", "|(abc)");
+        Test::ParseExceptionTest("AsteriskAfterChoice", "a|b|*");
 
-//--------------------------------------------------
-// Test 4: StartsWithChoice - begins with pipe
-//--------------------------------------------------
-        TestRunner::instance().addTest(
-            TestCase("StartsWithChoice", [] {
-                Grammar grammar;
-                Lexer lexer("|abcd");
-                Parser parser(grammar, lexer.tokenize());
-                parser.parse();
-            }, true)
-        );
+        // Parenthesis issues
+        Test::ParseExceptionTest("StartsWithRightParenthesis", ")abc(d)");
+        Test::ParseExceptionTest("EndsWithOpeningParenthesis", "abc(");
+        Test::ParseExceptionTest("EndWithOpeningParenthesis", "abc(");
+        Test::ParseExceptionTest("UnmatchedOpeningParenthesis", "a(bc(d)e");
+        Test::ParseExceptionTest("UnmatchedClosingParenthesis", "x(abc)d)e");
+        Test::ParseExceptionTest("ExtraClosingParenthesis", "a(bc))");
+        Test::ParseExceptionTest("ExtraOpeningParenthesis", "((abc)");
+        Test::ParseExceptionTest("ExtraClosingParenthesis", "abc)");
+        Test::ParseExceptionTest("BadParenthesisOrder", "a)((b)");
+        Test::ParseExceptionTest("TooManyClosing", "((((a)))))))");
+        Test::ParseExceptionTest("NotEnoughClosing", "(((ab))(");
+        Test::ParseExceptionTest("StartWithClosingParenthesis", ")(");
+        Test::ParseExceptionTest("EmptyParenthesis", "ab()");
+        Test::ParseExceptionTest("EmptyParenthesisWithStar", "()*");
 
-//--------------------------------------------------
-// Test 5: StartsWithChoiceEmpty - single pipe
-//--------------------------------------------------
-        TestRunner::instance().addTest(
-            TestCase("StartsWithChoiceEmpty", [] {
-                Grammar grammar;
-                Lexer lexer("|");
-                Parser parser(grammar, lexer.tokenize());
-                parser.parse();
-            }, true)
-        );
+        // Asterisk issues
+        Test::ParseExceptionTest("StartsWithAsterisk", "*abcd");
+        Test::ParseExceptionTest("StartsWithAsteriskEmpty", "*");
+        Test::ParseExceptionTest("AsteriskAfterLeftParenthesis", "a(*b)");
     }
 
     static bool testsRegistered = []() {
