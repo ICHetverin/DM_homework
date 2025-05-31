@@ -1,0 +1,12 @@
+/Users/ich/Desktop/Labs/dm/dm_hw/build/CMakeFiles/regex_parser.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/CMakeFiles/test.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/CMakeFiles/edit_cache.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/CMakeFiles/rebuild_cache.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/lib/CMakeFiles/regex_lib.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/lib/CMakeFiles/test.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/lib/CMakeFiles/edit_cache.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/lib/CMakeFiles/rebuild_cache.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/tests/CMakeFiles/regex_tests.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/tests/CMakeFiles/test.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/tests/CMakeFiles/edit_cache.dir
+/Users/ich/Desktop/Labs/dm/dm_hw/build/tests/CMakeFiles/rebuild_cache.dir
