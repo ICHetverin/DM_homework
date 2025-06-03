@@ -3,3 +3,9 @@
 
 # Build files
 */build/*
+
+# Test files
+tests/*
+
+# MacOS files
+*/.DS_Store

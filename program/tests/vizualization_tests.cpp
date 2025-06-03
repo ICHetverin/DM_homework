@@ -101,6 +101,26 @@ namespace {
                 }
             })
         );
+
+        //--------------------------------------------------
+        // Test 5: Vizualization 'a****'
+        //--------------------------------------------------
+        TestRunner::instance().addTest(
+            TestCase("VisualizationComplexKleene", [] {
+                Grammar grammar;
+                Lexer lexer("a****");
+                Parser parser(grammar, lexer.tokenize());
+                auto ast = parser.parse();
+
+                ASTNode::saveAsGraphViz(ast.get(), path + "ast_complex_kleene");
+
+                std::ifstream dot_file(path + "ast_complex_kleene.dot");
+                dot_file.seekg(0, std::ios::end);
+                if (dot_file.tellg() < 100) {
+                    throw std::runtime_error("Complex Kleene AST visualization too small");
+                }
+            })
+        );
     }
 
     struct TestRegistrar {
