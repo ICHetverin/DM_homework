@@ -1,0 +1,11 @@
+# VS Code extension files
+.vscode/*
+
+# Build files
+*/build/*
+
+# Test files
+tests/*
+
+# MacOS files
+*/.DS_Store
